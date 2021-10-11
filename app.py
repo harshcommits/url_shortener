@@ -1,16 +1,18 @@
 from flask import Flask, jsonify, request, redirect, url_for
 import os
+import pyshorteners
+import json
 import random
 
 app = Flask(__name__)
 
 @app.route('/shorten/<string:longURL>')
 def shorten(longURL: str):
-    urlfile = open("url.json", 'r')
+    urlfile = json.loads(open("url.json", 'r'))
     if longURL in urlfile:
         print ("value already present: " + urlfile[longURL])
     else:
-        shortURL = url_for("short/" + random.randrange(100, 900))
+        shortURL = pyshorteners.Shortener().tinyURL.short(longURL)
         with open("url.json", 'a') as add_url:
             add_url.write(shortURL)
 
