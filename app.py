@@ -30,9 +30,14 @@ def shorten():
 
     long_url = request.args.get('long_url')
     short_url = pyshorteners.Shortener().tinyurl.short(long_url)
-    new_entry = {long_url: short_url}
-    with open('urls.txt', 'a') as file:
-        json.dump(new_entry, file)
+
+    with open('urls.txt', 'r') as file:
+        file_json = json.load(file)
+        file_json[long_url] = short_url
+
+    with open('urls.txt', 'w') as file:
+        #   file_json = {long_url: short_url}
+        json.dump(file_json, file)
         return jsonify(message="New short URL created: " + short_url )
 
 
