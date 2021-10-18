@@ -18,7 +18,7 @@ def check(long_url: str):
         return jsonify(message='Data not present')
 
 
-@app.route('/shorten/<string:long_url>')
+@app.route('/shorten/<string:long_url>', methods=['POST'])
 def shorten(long_url: str):
 
     with open('urls.txt', 'a') as file:
