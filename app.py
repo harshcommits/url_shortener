@@ -16,11 +16,13 @@ def check():
         with open('urls.txt', 'r') as file_data:
             file_json = json.load(file_data)
 
-            for long, short in file_json.items():
-                if long == long_url:
-                    return jsonify(message="Short URL: " + short + "already exists")
+            invert_json = {v: k for k, v in file_json.items()}
+
+            if long_url in invert_json:
+                short_url = invert_json[long_url]
+                return jsonify(message="Short URL: http://localhost:5000/" + short_url + " exists")
             else:
-                return jsonify(message='Data not present')
+                return jsonify(message="this URL does not exist")
 
     else:
         return jsonify(message="The file is not readable")
@@ -55,9 +57,9 @@ def get_short(short_url):
             long_url = file_json.get(short_url)
             print("long URL is: " + long_url)
             return redirect(long_url)
-
-        # else:
-            # return jsonify(message="URL does not exist")
+            # return long_url
+        else:
+            return jsonify(message="URL does not exist")
 
 
 if __name__ == '__main__':
