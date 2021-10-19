@@ -44,20 +44,19 @@ def shorten():
     with open('urls.txt', 'w') as file:
         #   file_json = {short_url: long_url}
         json.dump(file_json, file)
-        return jsonify(message="New short URL created: " + short_url)
+        return jsonify(message="New short URL created: http://localhost:5000/" + short_url)
 
 
-@app.route('/<short_url>')
-def get_short(short_url):
+@app.route('/<string:short_url>')
+def redirect_short(short_url: str):
 
     with open('urls.txt', 'r') as file:
         file_json = json.load(file)
 
         if short_url in file_json.keys():
             long_url = file_json.get(short_url)
-            print("long URL is: " + long_url)
             return redirect(long_url)
-            # return long_url
+            # return jsonify(long_url)
         else:
             return jsonify(message="URL does not exist")
 
