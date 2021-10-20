@@ -46,7 +46,7 @@ def shorten():
         json.dump(file_json, file)
         return jsonify(message="New short URL created: http://localhost:5000/" + short_url)
 
-
+# redirect to the original URL
 @app.route('/<string:short_url>')
 def redirect_short(short_url: str):
 
