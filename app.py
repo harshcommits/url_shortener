@@ -56,8 +56,9 @@ def redirect_short(short_url):
 
         if short_url in file_json.keys():
             long_url = file_json[short_url]
+            if long_url.find("http://") !=0 and long_url.find("https://") !=0:
+                long_url = "http://" + long_url
             return redirect(long_url)
-            # return jsonify(long_url)
         else:
             return jsonify(message="URL does not exist")
 
