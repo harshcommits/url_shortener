@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, redirect
+from flask import Flask, jsonify, request, redirect, url_for
 import random
 import string
 import json
@@ -46,15 +46,16 @@ def shorten():
         json.dump(file_json, file)
         return jsonify(message="New short URL created: http://localhost:5000/" + short_url)
 
+
 # redirect to the original URL
 @app.route('/<string:short_url>')
-def redirect_short(short_url: str):
+def redirect_short(short_url):
 
     with open('urls.txt', 'r') as file:
         file_json = json.load(file)
 
         if short_url in file_json.keys():
-            long_url = file_json.get(short_url)
+            long_url = file_json[short_url]
             return redirect(long_url)
             # return jsonify(long_url)
         else:
